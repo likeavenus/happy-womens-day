@@ -9,37 +9,19 @@ export default class Menu extends Phaser.Scene {
   }
 
   create() {
-    console.log("Menu");
-    this.window = this.add.rectangle(
-      this.cameras.main.centerX,
-      this.cameras.main.centerY,
-      1000,
-      500,
-      0xffffff,
-      0.9
-    );
+    const name = localStorage.getItem("happyName");
 
-    this.text = this.add.text(this.window.x, this.window.y, "Start", {
-      color: "black",
-    });
-
-    this.input.on("pointerdown", this.startGame);
+    if (name) {
+      this.startGame();
+    } else {
+      const promptName = prompt("Как вас зовут?") as string;
+      console.log("promptName: ", promptName);
+      localStorage.setItem("happyName", promptName);
+      this.startGame();
+    }
   }
 
-  resume = () => {
-    this.scene.resume("Game");
-  };
-
   startGame = () => {
-    // this.sound.locked = false;
-    // this.scene.pause();
-    this.state = "init";
-    if (this.state === "started") {
-      this.scene.resume("Game");
-    } else if (this.state === "init") {
-      console.log("startGame");
-      this.scene.start("Game");
-      this.state = "started";
-    }
+    this.scene.start("Game");
   };
 }

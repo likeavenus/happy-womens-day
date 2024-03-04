@@ -44,6 +44,16 @@ export default class Preloader extends Phaser.Scene {
     this.load.image("tiles-floor", "assets/tilemap/floor/floor.png");
     this.load.tilemapTiledJSON("floorMap", "assets/tilemap/floor/floor.json");
 
+    this.load.image("happy-ground", "assets/happy/happy.png");
+    this.load.tilemapTiledJSON(
+      "happy-ground-tilemap",
+      "assets/happy/happy-ground.json"
+    );
+
+    this.load.image("background_1", "assets/happy/background_layer_1.png");
+    this.load.image("background_2", "assets/happy/background_layer_2.png");
+    this.load.image("background_3", "assets/happy/background_layer_3.png");
+
     this.load.atlas(
       "lizard",
       "assets/lizard/lizard.png",
@@ -75,6 +85,7 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start("Game");
+    // this.scene.start("Game");
+    this.scene.start("Menu");
   }
 }

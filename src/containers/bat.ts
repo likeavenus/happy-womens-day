@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { createBatAnims } from "../characters/bat/createBatAnims";
+import Sol from "../characters/sol/sol";
 
 enum Direction {
   UP,
@@ -11,6 +12,8 @@ enum Direction {
 export default class Bat extends Phaser.Physics.Matter.Sprite {
   private direction = Direction.RIGHT;
   public hp = 100;
+  angle = 0;
+  circleRadius = 40;
 
   constructor(
     scene: Phaser.Scene,
@@ -22,28 +25,28 @@ export default class Bat extends Phaser.Physics.Matter.Sprite {
     super(scene.matter.world, x, y, texture, frame, {
       label: "bat",
     });
-    this.setScale(1.5);
+    this.setScale(0.8);
     this.setFixedRotation();
-    this.setDepth(6);
+    this.setDepth(7);
     this.setIgnoreGravity(true);
     this.scene.add.existing(this);
     createBatAnims(this.scene.anims);
     this.anims.play("bat-move");
     this.setPipeline("Light2D");
+
+    this.setCollisionCategory(0);
   }
 
-  update(time: number): void {
-    let angle = Math.sin(time / 100) * 0.5;
-    let distance = 10;
-    this.x = this.x + angle * distance;
-    this.y = this.y + angle * distance;
+  update(time: number, player: Sol): void {
+    this.x = this.circleRadius * Math.cos(this.angle) + player.x + 40;
+    this.y = this.circleRadius * Math.sin(this.angle) + player.y - 40;
 
-    // if (prevX > this.x) {
-    //   this.flipX = true;
-    // } else {
-    //   this.flipX = false;
-    // }
-    // this.y = this.y + angle * 10;
-    // this.angle = angle * Phaser.Math.RAD_TO_DEG;
+    this.flipX = player.flipX;
+
+    if (this.flipX) {
+      this.angle -= 0.02;
+    } else {
+      this.angle += 0.02;
+    }
   }
 }

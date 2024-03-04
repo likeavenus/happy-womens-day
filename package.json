@@ -1,11 +1,11 @@
 {
-  "name": "happy-womans-day",
-  "homepage": "https://github.com/likeavenus/happy-womans-day",
+  "name": "happy-womens-day",
+  "homepage": "https://github.com/likeavenus/happy-womens-day",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
