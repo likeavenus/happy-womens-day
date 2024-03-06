@@ -1,0 +1,46 @@
+{
+  "frames": {
+    "ksenia_idle0.png": {
+      "frame": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 60, "h": 64 },
+      "sourceSize": { "w": 80, "h": 64 }
+    },
+    "ksenia_idle1.png": {
+      "frame": { "x": 80, "y": 0, "w": 80, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "sourceSize": { "w": 80, "h": 64 }
+    },
+    "ksenia_idle2.png": {
+      "frame": { "x": 0, "y": 64, "w": 80, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "sourceSize": { "w": 80, "h": 64 }
+    },
+    "ksenia_idle3.png": {
+      "frame": { "x": 80, "y": 64, "w": 80, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "sourceSize": { "w": 80, "h": 64 }
+    },
+    "ksenia_idle4.png": {
+      "frame": { "x": 0, "y": 128, "w": 80, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "sourceSize": { "w": 80, "h": 64 }
+    }
+  },
+  "meta": {
+    "app": "https://github.com/piskelapp/piskel/",
+    "version": "1.0",
+    "image": "ksenia_idle.png",
+    "format": "RGBA8888",
+    "size": { "w": 160, "h": 192 }
+  }
+}

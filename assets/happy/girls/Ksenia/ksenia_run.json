@@ -1,0 +1,67 @@
+{
+  "frames": {
+    "ksenia_run0.png": {
+      "frame": { "x": 0, "y": 0, "w": 48, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 64 },
+      "sourceSize": { "w": 48, "h": 64 }
+    },
+    "ksenia_run1.png": {
+      "frame": { "x": 48, "y": 0, "w": 48, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 64 },
+      "sourceSize": { "w": 48, "h": 64 }
+    },
+    "ksenia_run2.png": {
+      "frame": { "x": 96, "y": 0, "w": 48, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 64 },
+      "sourceSize": { "w": 48, "h": 64 }
+    },
+    "ksenia_run3.png": {
+      "frame": { "x": 0, "y": 64, "w": 48, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 64 },
+      "sourceSize": { "w": 48, "h": 64 }
+    },
+    "ksenia_run4.png": {
+      "frame": { "x": 48, "y": 64, "w": 48, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 64 },
+      "sourceSize": { "w": 48, "h": 64 }
+    },
+    "ksenia_run5.png": {
+      "frame": { "x": 96, "y": 64, "w": 48, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 64 },
+      "sourceSize": { "w": 48, "h": 64 }
+    },
+    "ksenia_run6.png": {
+      "frame": { "x": 0, "y": 128, "w": 48, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 64 },
+      "sourceSize": { "w": 48, "h": 64 }
+    },
+    "ksenia_run7.png": {
+      "frame": { "x": 48, "y": 128, "w": 48, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 64 },
+      "sourceSize": { "w": 48, "h": 64 }
+    }
+  },
+  "meta": {
+    "app": "https://github.com/piskelapp/piskel/",
+    "version": "1.0",
+    "image": "ksenia_run.png",
+    "format": "RGBA8888",
+    "size": { "w": 144, "h": 192 }
+  }
+}
