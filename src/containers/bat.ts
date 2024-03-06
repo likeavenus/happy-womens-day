@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { createBatAnims } from "../characters/bat/createBatAnims";
-import Sol from "../characters/sol/sol";
+import Sol from "../characters/girl/sol";
 
 enum Direction {
   UP,
@@ -25,7 +25,7 @@ export default class Bat extends Phaser.Physics.Matter.Sprite {
     super(scene.matter.world, x, y, texture, frame, {
       label: "bat",
     });
-    this.setScale(0.8);
+    this.setScale(0.9);
     this.setFixedRotation();
     this.setDepth(7);
     this.setIgnoreGravity(true);
@@ -38,10 +38,10 @@ export default class Bat extends Phaser.Physics.Matter.Sprite {
   }
 
   update(time: number, player: Sol): void {
-    this.x = this.circleRadius * Math.cos(this.angle) + player.x + 40;
-    this.y = this.circleRadius * Math.sin(this.angle) + player.y - 40;
+    this.x = this.circleRadius * Math.cos(this.angle) + player.x + 50;
+    this.y = this.circleRadius * Math.sin(this.angle) + player.y - 70;
 
-    this.flipX = player.flipX;
+    this.flipX = !player.flipX;
 
     if (this.flipX) {
       this.angle -= 0.02;

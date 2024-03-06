@@ -11,7 +11,7 @@ import Fish from "../characters/fish";
 import WaterBodyPlugin from "../containers/waterbodyPlugin";
 import WaterBody from "../containers/waterBody";
 import Bat from "../containers/bat";
-import Sol from "../characters/sol/sol";
+import Girl from "../characters/girl/girl";
 
 const MIN = Phaser.Math.DegToRad(-180);
 const MAX = Phaser.Math.DegToRad(180);
@@ -127,11 +127,11 @@ class Game extends Phaser.Scene {
     this.GROUND_COLLISION_GROUP = this.matter.world.nextCategory();
 
     const nameFromStorage = localStorage.getItem("happyName");
-    this.lizard = new Sol(
+    this.lizard = new Girl(
       this,
       550,
       1945,
-      "lizard",
+      "ksenia",
       nameFromStorage,
       undefined
     );
@@ -198,16 +198,6 @@ class Game extends Phaser.Scene {
       // }
     );
     const isFirstLevel = this.level === 1;
-    // const map = this.make.tilemap({ key: isFirstLevel ? "desert" : "dungeon" });
-    // const map = this.make.tilemap({ key: "map" });
-    // const map2 = this.make.tilemap({ key: "floorMap" });
-    // const tileset2 = map2.addTilesetImage(
-    //   "floor",
-    //   "tiles-floor"
-    // ) as Phaser.Tilemaps.Tileset;
-    // tileset2.setTileSize(32, 32);
-    // const groundLayer2 = map2.createLayer("Tile Layer 2", tileset2);
-    // const groundLayer3 = map2.createLayer("Tile Layer 3", tileset2);
 
     const map = this.make.tilemap({ key: "happy-ground-tilemap" });
     const tileset = map.addTilesetImage(
