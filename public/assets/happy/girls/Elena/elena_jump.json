@@ -1,0 +1,39 @@
+{
+  "frames": {
+    "Char2_Jump-Up0.png": {
+      "frame": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "sourceSize": { "w": 80, "h": 64 }
+    },
+    "Char2_Jump-Up1.png": {
+      "frame": { "x": 80, "y": 0, "w": 80, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "sourceSize": { "w": 80, "h": 64 }
+    },
+    "Char2_Jump-Up2.png": {
+      "frame": { "x": 0, "y": 64, "w": 80, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "sourceSize": { "w": 80, "h": 64 }
+    },
+    "Char2_Jump-Up3.png": {
+      "frame": { "x": 80, "y": 64, "w": 80, "h": 64 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 80, "h": 64 },
+      "sourceSize": { "w": 80, "h": 64 }
+    }
+  },
+  "meta": {
+    "app": "https://github.com/piskelapp/piskel/",
+    "version": "1.0",
+    "image": "Char2_Jump-Up.png",
+    "format": "RGBA8888",
+    "size": { "w": 160, "h": 128 }
+  }
+}

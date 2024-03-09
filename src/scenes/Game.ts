@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import Preloader from "./Preload";
 import UIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
-import { getDialog } from "./constants";
+import { getDialog, greetings } from "./constants";
 import { createLizardAnims } from "../characters/lizard-example/lizardAnims";
 import Rope from "../containers/rope";
 import Paused from "./Paused";
@@ -10,26 +10,24 @@ import Menu from "./Menu";
 import Fish from "../characters/fish";
 import WaterBodyPlugin from "../containers/waterbodyPlugin";
 import WaterBody from "../containers/waterBody";
-import Bat from "../containers/bat";
 import Girl from "../characters/girl/girl";
+import MovingPlatform from "../containers/MovingPlatform";
+import { TextBox } from "../containers/TextBox";
+import Bat from "../characters/bat/bat";
+import Chest from "../characters/chest/chest";
 
 const MIN = Phaser.Math.DegToRad(-180);
-const MAX = Phaser.Math.DegToRad(180);
-const X = 1000;
-const Y = 100;
-const LEVER = 64;
-const WIDTH = 112;
-const HEIGHT = 32;
-const STIFFNESS = 0.1;
-const NO_COLLISION_GROUP = 0;
 
 class Game extends Phaser.Scene {
   hook!: Phaser.Physics.Matter.Image;
   lineGroup!: Phaser.Physics.Matter.Image[];
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-  // platforms!: Phaser.Physics.Arcade.StaticGroup;
-  // movingPlatform!: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
   stars!: Phaser.Physics.Arcade.Group;
+  platform!: MovingPlatform;
+  platform2!: MovingPlatform;
+  platform3!: MovingPlatform;
+
+  chest!: Chest;
   starsSummary = 0;
   lizard!: Phaser.Physics.Matter.Sprite;
   isTouchingGround = false;
@@ -65,29 +63,11 @@ class Game extends Phaser.Scene {
   }
   preload() {
     this.cursors = this.input.keyboard!.createCursorKeys();
-    // this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
   }
 
   create() {
-    // this.fish = new Fish(
-    //   this.matter.world,
-    //   300,
-    //   1800,
-    //   "clown",
-    //   undefined,
-    //   {}
-    // ).setDepth(5);
-    this.fish = this.matter.add.image(900, 2600, "clown", undefined, {
-      ignoreGravity: true,
-      // shape: "circle",
-    });
-    this.fish.visible = false;
-    this.fish.setScale(0.5);
-    this.fish.setDepth(5);
-    this.fish.setCollisionCategory(this.collisionCategory4);
-    this.fish.setCollidesWith(
-      this.collisionCategory2 | this.collisionCategory1
-    );
+    // this.platform.moveHorizontally(); bug
+
     /** music */
     this.sound.pauseOnBlur = false;
     this.music = this.sound.add("music", {
@@ -96,7 +76,7 @@ class Game extends Phaser.Scene {
     });
     if (!this.sound.locked) {
       // already unlocked so play
-      // this.music.play();
+      this.music.play();
     } else {
       // wait for 'unlocked' to fire and then play
       this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
@@ -127,14 +107,66 @@ class Game extends Phaser.Scene {
     this.GROUND_COLLISION_GROUP = this.matter.world.nextCategory();
 
     const nameFromStorage = localStorage.getItem("happyName");
+    const startCoords = {
+      x: 550,
+      y: 1945,
+    };
+
+    const testCoords = {
+      x: 2400,
+      y: 1300,
+    };
+    enum GirlsSpriteKeys {
+      Ksenia = "ksenia",
+      Elena = "elena",
+    }
+    const girlKey = localStorage.getItem("girlKey");
+    // const girlsMap = {
+    //   [GirlsSpriteKeys.Ksenia]:
+    // };
     this.lizard = new Girl(
       this,
-      550,
-      1945,
-      "ksenia",
-      nameFromStorage,
-      undefined
+      startCoords.x,
+      startCoords.y,
+      girlKey as string,
+      nameFromStorage as string,
+      {
+        label: "girl",
+      }
     );
+
+    this.platform = new MovingPlatform(
+      this,
+      2450,
+      2000,
+      "platform",
+      {}
+    ).setPipeline("Light2D");
+    this.platform2 = new MovingPlatform(
+      this,
+      3000,
+      1200,
+      "platform",
+      {}
+    ).setPipeline("Light2D");
+    this.platform3 = new MovingPlatform(
+      this,
+      4000,
+      1200,
+      "platform",
+      {}
+    ).setPipeline("Light2D");
+    this.chest = new Chest(
+      this,
+      this.platform3.x + 30,
+      this.platform3.y - 40,
+      "chest"
+    );
+
+    this.platform.moveVertically(2200);
+    this.platform2.moveHorizontally(2000, -700);
+    // this.cameras.main.zoomTo(0.4);
+
     this.lizard.setCollisionCategory(this.collisionCategory1);
     this.lizard.setCollidesWith(
       this.collisionCategory1 |
@@ -146,7 +178,7 @@ class Game extends Phaser.Scene {
     this.lizard.itemInArm = null;
     // this.lizard.setMass(140);
 
-    this.bat = new Bat(this, 660, 2500, "bat", undefined);
+    // this.bat = new Bat(this, 660, 2500, "bat", undefined);
 
     this.input.on("pointerdown", (pointer) => {});
 
@@ -164,11 +196,13 @@ class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.lizard);
 
     const { width, height } = this.scale;
+    const darknessMask = this.add.graphics();
+    darknessMask.fillStyle(0x000000, 1);
 
     this.backgrounds.push(
       {
         ratioX: 0.07,
-        ratioY: 0.07,
+        ratioY: 0.009,
         sprite: this.add
           .tileSprite(0, 0, width, height, "background_1")
           .setOrigin(0, 0)
@@ -178,7 +212,7 @@ class Game extends Phaser.Scene {
       },
       {
         ratioX: 0.09,
-        ratioY: 0.15,
+        ratioY: 0.02,
         sprite: this.add
           .tileSprite(0, -120, width, height, "background_2")
           .setOrigin(0, 0)
@@ -186,18 +220,17 @@ class Game extends Phaser.Scene {
           .setScale(3.5, 4),
         // .setDepth(0),
       }
-      // {
-      //   ratioX: 0.03,
-      //   ratioY: 0.3,
-      //   sprite: this.add
-      //     .tileSprite(0, 0, width, height, "background_3")
-      //     .setOrigin(0, 0)
-      //     .setScrollFactor(0, 0)
-      //     .setScale(3.5, 4),
-      //   // .setDepth(0),
-      // }
     );
-    const isFirstLevel = this.level === 1;
+
+    this.backgrounds.forEach((tileSprite) => {
+      darknessMask.fillRect(
+        0,
+        0,
+        this.cameras.main.width,
+        this.cameras.main.height
+      );
+      // tileSprite.sprite.setMask(darknessMask.createGeometryMask());
+    });
 
     const map = this.make.tilemap({ key: "happy-ground-tilemap" });
     const tileset = map.addTilesetImage(
@@ -257,59 +290,91 @@ class Game extends Phaser.Scene {
       }
     });
 
-    // this.matter.world.on("collisionstart", (e, bodyA, bodyB) => {
-    //   // console.log(
-    //   //   e.pairs.filter((pair) => {
-    //   //     console.log(pair);
-    //   //   })
-    //   // );
-    //   if (
-    //     e.pairs.some(
-    //       (pair) => pair.bodyA.label == "water" && pair.bodyB.label == "hook"
-    //     )
-    //   ) {
-    //     const i = this.waterBody.columns.findIndex(
-    //       (col, i) => col.x + 370 >= bodyB.position.x && i
-    //     );
+    this.matter.world.on("collisionstart", (e, bodyA, bodyB) => {
+      if (
+        (bodyA === this.lizard.body && bodyB === this.chest.body) ||
+        (bodyA === this.chest.body && bodyB === this.lizard.body)
+      ) {
+        this.chest.openChest();
+        let textBox;
+        const greetings = localStorage.getItem("greetings") as string;
+        if (!textBox) {
+          let textBox = new TextBox(
+            this,
+            this.chest.x,
+            this.chest.y - 200,
+            400,
+            260,
+            greetings
+          );
 
-    //     const speed = bodyB.speed * 3;
-    //     const numDroplets = Math.ceil(bodyB.speed) * 6;
+          this.tweens.add({
+            targets: textBox,
+            alpha: 1,
+            ease: "Bounce", // 'Cubic', 'Elastic', 'Bounce', 'Back'
+            duration: 1000,
+            repeat: 0, // -1: infinity
+            yoyo: false,
+          });
+        }
+      }
 
-    //     // bodyB.setFrictionAir(0.25);
-    //     this.waterBody.splash(
-    //       Phaser.Math.Clamp(i, 0, this.waterBody.columns.length - 1),
-    //       speed,
-    //       numDroplets
-    //     );
-    //   }
-    //   if (
-    //     e.pairs.some(
-    //       (pair) => pair.bodyA.label == "lizard" && pair.bodyB.label == "water"
-    //     )
-    //   ) {
-    //     const i = this.waterBody.columns.findIndex(
-    //       (col, i) => col.x + 370 >= bodyA.position.x && i
-    //     );
-
-    //     const speed = bodyA.speed * 2;
-    //     const numDroplets = Math.ceil(bodyA.speed) * 5;
-    //     this.lizard.setFrictionAir(0.25);
-    //     this.waterBody.splash(
-    //       Phaser.Math.Clamp(i, 0, this.waterBody.columns.length - 1),
-    //       speed,
-    //       numDroplets
-    //     );
-    //   }
-    // });
-
-    this.matter.world.on("collisionactive", (e, o1, o2) => {
       if (
         e.pairs.some(
           (pair) => pair.bodyA.label == "lizard" && pair.bodyB.label == "water"
         )
       ) {
+        // console.log(
+        //   e.pairs.filter((pair) => {
+        //     console.log(pair);
+        //   })
+        // );
+        // if (
+        //   e.pairs.some(
+        //     (pair) => pair.bodyA.label == "water" && pair.bodyB.label == "hook"
+        //   )
+        // ) {
+        //   const i = this.waterBody.columns.findIndex(
+        //     (col, i) => col.x + 370 >= bodyB.position.x && i
+        //   );
+
+        //   const speed = bodyB.speed * 3;
+        //   const numDroplets = Math.ceil(bodyB.speed) * 6;
+
+        //   // bodyB.setFrictionAir(0.25);
+        //   this.waterBody.splash(
+        //     Phaser.Math.Clamp(i, 0, this.waterBody.columns.length - 1),
+        //     speed,
+        //     numDroplets
+        //   );
+        // }
+        const i = this.waterBody.columns.findIndex(
+          (col, i) => col.x + 370 >= bodyA.position.x && i
+        );
+
+        const speed = bodyA.speed * 2;
+        const numDroplets = Math.ceil(bodyA.speed) * 5;
         this.lizard.setFrictionAir(0.25);
+        this.waterBody.splash(
+          Phaser.Math.Clamp(i, 0, this.waterBody.columns.length - 1),
+          speed,
+          numDroplets
+        );
       }
+    });
+
+    this.matter.world.on("collisionactive", (e, bodyA, bodyB) => {
+      // if (
+      //   (bodyA === this.platform2.body && bodyB === this.lizard.body) ||
+      //   (bodyA === this.lizard.body && bodyB === this.platform2.body)
+      // ) {
+      //   console.log("hmmmmmm", this.platform2.getVelocity().x);
+      //   // this.lizard.setVelocity(
+      //   //   this.platform2.getVelocity().x,
+      //   //   this.platform2.getVelocity().y
+      //   // );
+      //   // this.lizard.setVelocityX(this.platform2.getVelocity().x);
+      // }
       if (
         e.pairs.some(
           (pair) => pair.bodyA.label == "water" && pair.bodyB.label == "hook"
@@ -383,7 +448,6 @@ class Game extends Phaser.Scene {
       .addLight(this.lizard.x, this.lizard.y, 512)
       .setIntensity(2);
 
-    // this.cameras.main.postFX.addTiltShift(0.9, 2.0, 0.4);
     // const lizard = this.physics.add.sprite(256, 500, "lizard").setScale(3.5);
     // const lizards = this.physics.add.group({
     //   classType: Lizard,
@@ -400,6 +464,7 @@ class Game extends Phaser.Scene {
 
     // this.physics.add.collider(lizards, groundLayer2);
     // this.physics.add.collider(lizards, groundLayer3);
+    this.matter.world.update60Hz();
 
     this.cameras.main.setFollowOffset(-30, 80);
 
@@ -422,7 +487,7 @@ class Game extends Phaser.Scene {
     const { left, right, up, space } = this.cursors;
     const speed = 5;
     this.lizard.update(this.cursors);
-    this.bat.update(time, this.lizard);
+    // this.bat.update(time, this.lizard);
   }
 
   collectStar(player, star?: Phaser.Types.Physics.Arcade.ImageWithDynamicBody) {
@@ -460,10 +525,15 @@ class Game extends Phaser.Scene {
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.WEBGL,
-  width: window.innerWidth,
-  height: window.innerHeight,
+  fps: {
+    limit: 140,
+  },
+  // width: window.innerWidth,
+  // height: window.innerHeight,
+  width: 1000,
+  height: 600,
   scale: {
-    mode: Phaser.Scale.FIT,
+    mode: Phaser.Scale.MAX_ZOOM,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   physics: {

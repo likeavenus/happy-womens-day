@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import { createBatAnims } from "../characters/bat/createBatAnims";
-import Sol from "../characters/girl/sol";
+import { createBatAnims } from "./createBatAnims";
+import Girl from "../girl/girl";
 
 enum Direction {
   UP,
@@ -37,7 +37,7 @@ export default class Bat extends Phaser.Physics.Matter.Sprite {
     this.setCollisionCategory(0);
   }
 
-  update(time: number, player: Sol): void {
+  update(time: number, player: Girl): void {
     this.x = this.circleRadius * Math.cos(this.angle) + player.x + 50;
     this.y = this.circleRadius * Math.sin(this.angle) + player.y - 70;
 
