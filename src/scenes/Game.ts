@@ -526,6 +526,7 @@ class Game extends Phaser.Scene {
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.WEBGL,
+  canvas: document.querySelector("#phaser") as HTMLCanvasElement,
   fps: {
     limit: 140,
   },
