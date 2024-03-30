@@ -15,6 +15,7 @@ import MovingPlatform from "../containers/MovingPlatform";
 import { TextBox } from "../containers/TextBox";
 import Bat from "../characters/bat/bat";
 import Chest from "../characters/chest/chest";
+import Intro from "./Intro";
 
 const MIN = Phaser.Math.DegToRad(-180);
 
@@ -545,7 +546,7 @@ const config: Phaser.Types.Core.GameConfig = {
       },
     },
   },
-  scene: [Preloader, Menu, Game],
+  scene: [Intro, Preloader, Menu, Game],
   plugins: {
     global: [
       {
